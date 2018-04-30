@@ -1,4 +1,4 @@
-package com.example.ordinateur.map.activities;
+package com.example.baptiste.smartcity.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,12 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ordinateur.map.R;
-import com.example.ordinateur.map.bdd.UsersBDD;
-import com.example.ordinateur.map.object.User;
-import com.firebase.ui.auth.AuthUI;
+import com.example.baptiste.smartcity.R;
+import com.example.baptiste.smartcity.bdd.UsersBDD;
+import com.example.baptiste.smartcity.object.User;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class RemoveActivity extends Activity {
@@ -30,15 +28,14 @@ public class RemoveActivity extends Activity {
         findViewById(R.id.confirmDeleteUser).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user_name = ((EditText)findViewById(R.id.User_login)).getText().toString();
+                String user_name = ((EditText) findViewById(R.id.User_login)).getText().toString();
                 User user = usersBDD.getUserWithLogin(user_name);
-                if(user != null) {
+                if (user != null) {
                     usersBDD.removeUser(user.getId());
                     Toast.makeText(view.getContext(), "suppression de " + user_name + " bien effectué", Toast.LENGTH_LONG).show();
                     finish();
                     startActivity(getIntent());
-                }
-                else{
+                } else {
                     Toast.makeText(view.getContext(), "cet utilisateur n'existe pas", Toast.LENGTH_LONG).show();
                 }
             }
@@ -46,23 +43,12 @@ public class RemoveActivity extends Activity {
         LinearLayout layout_list_user = findViewById(R.id.list_user);
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         List<User> list_user = usersBDD.getUsers();
-        for(User user : list_user) {
+        for (User user : list_user) {
             TextView tv = new TextView(this);
             tv.setLayoutParams(lparams);
             tv.setText(user.getIdentifiant());
             layout_list_user.addView(tv);
         }
-    }
-
-    private void startSignInActivity(){
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(
-                                Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()))
-                        .setIsSmartLockEnabled(false, true)
-                        .build(),
-                RC_SIGN_IN);
     }
 
     @Override

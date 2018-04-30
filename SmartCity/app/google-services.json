@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "235986333004",
+    "firebase_url": "https://smartcity-1bfdf.firebaseio.com",
+    "project_id": "smartcity-1bfdf",
+    "storage_bucket": "smartcity-1bfdf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235986333004:android:524aa9498b79dd84",
+        "android_client_info": {
+          "package_name": "com.example.baptiste.smartcity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235986333004-8bjdsb6ph5gc59hbqttq7duadmm0pu6c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.baptiste.smartcity",
+            "certificate_hash": "9aa22bf19b911b3edfdf62a18ddba8604d58f010"
+          }
+        },
+        {
+          "client_id": "235986333004-kp7ckb8ga4rpdrjaeiru1hmoj64bl0qn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_f2xOY0wh9bdCgOGp3QCFnfdkkHNhpyE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235986333004-kp7ckb8ga4rpdrjaeiru1hmoj64bl0qn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
