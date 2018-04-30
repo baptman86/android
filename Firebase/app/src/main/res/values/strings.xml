@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Firebase</string>
-    <string name="error_authentication_canceled">connexion annulée</string>
-    <string name="connection_succeed">connection reussie</string>
-    <string name="error_no_internet">Erreur : pas de connection internet</string>
-    <string name="error_unknown_error">Erreur inconnue</string>
-</resources>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">info_M1</string>
-
-    <string name="storedLogin">user_login</string>
-    <string name="storedPassword">user_password</string>
-
-    <string name="connected_user">user_info</string>
-</resources>
