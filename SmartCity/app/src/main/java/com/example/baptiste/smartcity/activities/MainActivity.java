@@ -1,6 +1,9 @@
 package com.example.baptiste.smartcity.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_map :
                 this.showMapFragment();
                 break;
+            case R.id.activity_main_drawer_disconnect :
+                this.disconnect();
+                break;
             default:
                 break;
         }
@@ -73,6 +79,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showMapFragment(){
         if (this.FragmentMap == null) this.FragmentMap = SupportMapFragment.newInstance();
         this.startTransactionFragment(this.FragmentMap);
+    }
+
+    private void disconnect(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(getResources().getString(R.string.storedLogin));
+        editor.remove(getResources().getString(R.string.storedPassword));
+        editor.apply();
+
+        Intent intent = new Intent(this, LogInActivity.class);
+        startActivity(intent);
     }
 
     private void startTransactionFragment(Fragment fragment){

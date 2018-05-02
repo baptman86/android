@@ -19,15 +19,24 @@
     <string name="welcome">bienvenue</string>
     <string name="store_password">mémoriser le mot de passe ?</string>
 
+    <!-- connection -->
     <string name="account_created">compte créé avec succés</string>
 
+
+    <!-- inscription -->
+    <string name="invalid_login">identifiant invalide</string>
+    <string name="invalid_password">mot de passe invalide</string>
+
+    <!-- geolocalisation -->
     <string name="error_location_permission">veuillez autoriser l\'application à accéder à votre localisation</string>
 
-    <string name="disconnect">déconnexion</string>
-    <string name="accueil">carte</string>
-    <string name="professional">annnonce</string>
-
+    <!-- navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+        <!-- menu -->
+        <string name="disconnect">déconnexion</string>
+        <string name="map">carte</string>
+        <string name="professional">annnonce</string>
 
 </resources>

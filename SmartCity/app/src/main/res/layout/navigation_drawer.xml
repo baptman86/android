@@ -24,17 +24,14 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:theme="@style/ToolBarStyle">
-            <LinearLayout
+            <TextClock
+                android:id="@+id/textClock"
+                android:textColor="#FFFFFF"
+                android:format24Hour="dd/MM/yyyy hh:mm:ss"
+                android:format12Hour="dd/MM/yyyy hh:mm:ss a"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextClock
-                    android:id="@+id/textClock"
-                    android:textColor="#FFFFFF"
-                    android:format24Hour="dd-MM-yyyy hh:mm:ss"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
 
         <!-- FrameLayout for our fragments -->

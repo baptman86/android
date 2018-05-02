@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "235986333004-3nv9fci2nbcv3gl82q0n3llrjbef6dek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.baptiste.smartcity",
+            "certificate_hash": "01ee10360053132840f263f2b5160576ede9df4e"
+          }
+        },
+        {
           "client_id": "235986333004-8bjdsb6ph5gc59hbqttq7duadmm0pu6c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

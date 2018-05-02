@@ -6,39 +6,36 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.baptiste.smartcity.R;
-import com.example.baptiste.smartcity.bdd.UsersBDD;
 import com.example.baptiste.smartcity.object.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private static UsersBDD usersBDD;
+    private static DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        usersBDD = new UsersBDD(this);
-        usersBDD.open();
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         String user_login = prefs.getString(getResources().getString(R.string.storedLogin),null);
         String user_password = prefs.getString(getResources().getString(R.string.storedPassword),null);
+
+
         if(user_login!=null && user_password!=null) {
-            User user = usersBDD.getUserWithLogin(user_login);
-            if(user != null && UsersBDD.testPassword(user,user_password)){
-                Toast.makeText(this, getResources().getString(R.string.welcome) + " " + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
-                goToMain(this,user);
-            }
-            else{
-                Toast.makeText(this,getResources().getString(R.string.error_wrong_credentials),Toast.LENGTH_LONG).show();
-            }
+            directLogIn(this,user_login,user_password);
         }
 
         setContentView(R.layout.activity_log_in);
@@ -47,22 +44,9 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String user_login = ((EditText)findViewById(R.id.User_login)).getText().toString();
                 String user_password = ((EditText)findViewById(R.id.User_password)).getText().toString();
-                User user = usersBDD.getUserWithLogin(user_login);
-                if(user != null && UsersBDD.testPassword(user,user_password)){
-                    Boolean store_password = ((CheckBox)findViewById(R.id.storePassword)).isChecked();
-                    if(store_password){
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString(getResources().getString(R.string.storedLogin), user_login);
-                        editor.putString(getResources().getString(R.string.storedPassword), user_password);
-                        editor.apply();
-                    }
-                    Toast.makeText(view.getContext(), getResources().getString(R.string.welcome) + " " + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
-                    goToMain(view.getContext(),user);
-                }
-                else{
-                    Toast.makeText(view.getContext(),getResources().getString(R.string.error_wrong_credentials),Toast.LENGTH_LONG).show();
-                }
+                Boolean store_password = ((CheckBox)findViewById(R.id.storePassword)).isChecked();
+
+                logIn(view.getContext(),user_login,user_password,store_password);
             }
         });
 
@@ -70,14 +54,6 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), SignInActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), RemoveActivity.class);
                 startActivity(intent);
             }
         });
@@ -89,8 +65,85 @@ public class LogInActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    protected void OnDestroy(){
-        super.onDestroy();
-        usersBDD.close();
+    private void directLogIn(final Context ctx_param,final String user_login_param,final String user_password_param){
+        ValueEventListener vel = new ValueEventListener() {
+
+            private Context ctx = ctx_param;
+            private String user_login= user_login_param;
+            private String user_password = user_password_param;
+
+            private User user;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user = null;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user_found = snapshot.getValue(User.class);
+                    if(user_found != null && user_found.getIdentifiant().equals(user_login)){
+                        user = user_found;
+                    }
+                }
+                mDataBase.child("users").removeEventListener(this);
+
+                if(user != null && User.testPassword(user,user_password)){
+                    Toast.makeText(ctx, getResources().getString(R.string.welcome) + " " + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
+                    goToMain(ctx,user);
+                }
+                else{
+                    Toast.makeText(ctx,getResources().getString(R.string.error_wrong_credentials),Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.d("test", "error");
+            }
+        };
+        mDataBase.child("users").addValueEventListener(vel);
+    }
+
+    private void logIn(final Context ctx_param,final String user_login_param,final String user_password_param, final Boolean store_password_param){
+        ValueEventListener vel = new ValueEventListener() {
+
+            private Context ctx = ctx_param;
+            private String user_login= user_login_param;
+            private String user_password = user_password_param;
+            private Boolean store_password = store_password_param;
+
+            private User user;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user = null;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user_found = snapshot.getValue(User.class);
+                    if(user_found != null && user_found.getIdentifiant().equals(user_login)){
+                        user = user_found;
+                    }
+                }
+                mDataBase.child("users").removeEventListener(this);
+
+                if(user != null && User.testPassword(user,user_password)){
+                    if(store_password){
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString(getResources().getString(R.string.storedLogin), user_login);
+                        editor.putString(getResources().getString(R.string.storedPassword), user_password);
+                        editor.apply();
+                    }
+                    Toast.makeText(ctx, getResources().getString(R.string.welcome) + " " + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
+                    goToMain(ctx,user);
+                }
+                else{
+                    Toast.makeText(ctx,getResources().getString(R.string.error_wrong_credentials),Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.d("test", "error");
+            }
+        };
+        mDataBase.child("users").addValueEventListener(vel);
     }
 }

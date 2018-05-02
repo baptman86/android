@@ -3,15 +3,18 @@ package com.example.baptiste.smartcity.object;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Random;
+
 public class User implements Parcelable {
-    private int id;
     private String identifiant;
     private String mot_de_passe;
     private String salt;
     private String name;
     private String surname;
     private String email;
-    private String domaines; //String[] split by ";"
+    //private String domaines; //String[] split by ";"
+
+    private static final int SALT_LENGHT = 12;
 
     public User(){};
 
@@ -26,14 +29,13 @@ public class User implements Parcelable {
 
     //parcel part
     public User(Parcel in){
-        this.id = in.readInt();
         this.identifiant= in.readString();
         this.mot_de_passe= in.readString();
         this.salt= in.readString();
         this.name= in.readString();
         this.surname= in.readString();
         this.email= in.readString();
-        this.domaines = in.readString();
+        //this.domaines = in.readString();
     }
 
     @Override
@@ -43,14 +45,13 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(this.id);
         parcel.writeString(this.identifiant);
         parcel.writeString(this.mot_de_passe);
         parcel.writeString(this.salt);
         parcel.writeString(this.name);
         parcel.writeString(this.surname);
         parcel.writeString(this.email);
-        parcel.writeString(this.domaines);
+        //parcel.writeString(this.domaines);
     }
 
     public static final Creator<User> CREATOR= new Creator<User>() {
@@ -71,14 +72,6 @@ public class User implements Parcelable {
 
     public void setSalt(String salt) {
         this.salt = salt;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -120,4 +113,27 @@ public class User implements Parcelable {
     public void setEmail(String email) {
             this.email = email;
         }
+
+    public static Boolean testPassword(User user,String password){
+        return encrypt(password,user.getSalt()).equals(user.getMot_de_passe());
+    }
+
+    //encrypt EXTREMEMENT naif
+
+    public static String encrypt(String Data, String salt){
+        String tmp = Data+salt;
+        return Integer.toString(tmp.hashCode());
+    }
+
+    public static String generateSalt(){
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(SALT_LENGHT);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
+    }
 }
