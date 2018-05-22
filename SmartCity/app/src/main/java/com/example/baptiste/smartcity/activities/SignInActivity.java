@@ -5,13 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
-import com.example.baptiste.smartcity.Function;
+import com.example.baptiste.smartcity.utils.Function;
 import com.example.baptiste.smartcity.R;
 import com.example.baptiste.smartcity.objects.User;
 import com.google.firebase.database.DataSnapshot;
@@ -20,13 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.regex.Pattern;
-
 
 public class SignInActivity extends AppCompatActivity {
-
-    private static final int LOGIN_MINIMUM_LENGTH = 4;
-    private static final int PASSWORD_MINIMUM_LENGTH = 4;
 
     private static DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();
 
@@ -62,6 +56,7 @@ public class SignInActivity extends AppCompatActivity {
             private String user_email = user_email_param;
 
             private User user;
+            private String key;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 user = null;
@@ -69,6 +64,7 @@ public class SignInActivity extends AppCompatActivity {
                     User user_found = snapshot.getValue(User.class);
                     if(user_found != null && user_found.getIdentifiant().equals(user_login)){
                         user = user_found;
+                        key = snapshot.getKey();
                     }
                 }
                 mDataBase.child("users").removeEventListener(this);
@@ -86,14 +82,14 @@ public class SignInActivity extends AppCompatActivity {
                                 Toast.makeText(ctx, R.string.error_conf_password, Toast.LENGTH_LONG).show();
                             }
                             Toast.makeText(ctx, R.string.account_created, Toast.LENGTH_LONG).show();
-                            goToMain(ctx, user);
+                            goToMain(ctx, key);
                         }
                         else{
-                            Toast.makeText(ctx, ctx.getResources().getString(R.string.invalid_password)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+LOGIN_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ctx, ctx.getResources().getString(R.string.invalid_password)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+Function.LOGIN_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
                         }
                     }
                     else{
-                        Toast.makeText(ctx, ctx.getResources().getString(R.string.invalid_login)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+PASSWORD_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, ctx.getResources().getString(R.string.invalid_login)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+Function.PASSWORD_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -108,9 +104,9 @@ public class SignInActivity extends AppCompatActivity {
         mDataBase.child("users").addValueEventListener(vel);
     }
 
-    private void goToMain(Context ctx, User user) {
+    private void goToMain(Context ctx, String user_id) {
         Intent intent = new Intent(ctx, MainActivity.class);
-        intent.putExtra("user_info", user);
+        intent.putExtra(getResources().getString(R.string.connected_user_id), user_id);
         startActivity(intent);
     }
 }

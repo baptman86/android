@@ -11,6 +11,7 @@
     <string name="store_password">mémoriser le mot de passe ?</string>
     <string name="error_wrong_credentials">identifiant ou mot de passe incorrect</string>
     <string name="account_created">compte créé avec succés</string>
+    <string name="account_modified">compte modifié avec succés</string>
     <string name="log_in">Connexion</string>
         <!-- user fields -->
         <string name="conf_password">confirmez le mot de passe</string>
@@ -25,7 +26,7 @@
     <string name="invalid_login">identifiant invalide</string>
     <string name="invalid_password">mot de passe invalide</string>
     <string name="error_user_already_exist">Cet identifiant est déjà pris</string>
-    <string name="error_conf_password">le deuxieme mot de passe doit être identique</string>
+    <string name="error_conf_password">la confirmation du mot de passe doit être identique au mot de passe</string>
     <string name="sign_in">Inscription</string>
 
 
@@ -51,5 +52,11 @@
     <!-- news -->
     <string name="no_news">aucune news trouvé</string>
     <string name="error_news">erreur lors de la recherche de news</string>
+
+    <!--    Permissions    -->
+    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
+    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
+    <string name="permission_required_toast">Location permission is required for this demo.</string>
+
 
 </resources>

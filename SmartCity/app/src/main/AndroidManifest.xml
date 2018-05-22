@@ -21,8 +21,6 @@
             android:value="@string/google_maps_key" />
         <activity android:name="com.example.baptiste.smartcity.activities.SignInActivity">
         </activity>
-        <activity android:name="com.example.baptiste.smartcity.activities.RemoveActivity">
-        </activity>
         <activity android:name="com.example.baptiste.smartcity.activities.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

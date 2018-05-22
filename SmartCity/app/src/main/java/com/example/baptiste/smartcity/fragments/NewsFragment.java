@@ -80,7 +80,8 @@ public class NewsFragment extends Fragment {
         }
         protected String doInBackground(String... args) {
             String urlParameters = "";
-            return excuteGet("https://newsapi.org/v2/top-headlines?category=general&country=fr&pageSize=99&apiKey="+API_KEY, urlParameters);
+            return excuteGet("https://newsapi.org/v2/everything?q=bitcoin&pageSize=10&apiKey="+API_KEY,urlParameters);
+            //return excuteGet("https://newsapi.org/v2/top-headlines?category=general&country=fr&page=1&pageSize=99&apiKey="+API_KEY, urlParameters);
         }
         @Override
         protected void onPostExecute(String xml) {

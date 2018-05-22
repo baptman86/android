@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -66,6 +67,7 @@ public class LogInActivity extends AppCompatActivity {
             private String user_password = user_password_param;
 
             private User user;
+            private String key;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 user = null;
@@ -73,13 +75,14 @@ public class LogInActivity extends AppCompatActivity {
                     User user_found = snapshot.getValue(User.class);
                     if(user_found != null && user_found.getIdentifiant().equals(user_login)){
                         user = user_found;
+                        key = snapshot.getKey();
                     }
                 }
                 mDataBase.child("users").removeEventListener(this);
 
                 if(user != null && User.testPassword(user,user_password)){
                     Toast.makeText(ctx, getResources().getString(R.string.welcome) + " " + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
-                    goToMain(ctx,user);
+                    goToMain(ctx,key);
                 }
                 else{
                     Toast.makeText(ctx,getResources().getString(R.string.error_wrong_credentials),Toast.LENGTH_LONG).show();
@@ -104,6 +107,7 @@ public class LogInActivity extends AppCompatActivity {
             private Boolean store_password = store_password_param;
 
             private User user;
+            private String key;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 user = null;
@@ -111,6 +115,7 @@ public class LogInActivity extends AppCompatActivity {
                     User user_found = snapshot.getValue(User.class);
                     if(user_found != null && user_found.getIdentifiant().equals(user_login)){
                         user = user_found;
+                        key = snapshot.getKey();
                     }
                 }
                 mDataBase.child("users").removeEventListener(this);
@@ -124,7 +129,7 @@ public class LogInActivity extends AppCompatActivity {
                         editor.apply();
                     }
                     Toast.makeText(ctx, getResources().getString(R.string.welcome) + " " + user.getName() + " " + user.getSurname(), Toast.LENGTH_LONG).show();
-                    goToMain(ctx,user);
+                    goToMain(ctx,key);
                 }
                 else{
                     Toast.makeText(ctx,getResources().getString(R.string.error_wrong_credentials),Toast.LENGTH_LONG).show();
@@ -141,9 +146,9 @@ public class LogInActivity extends AppCompatActivity {
         mDataBase.child("users").addValueEventListener(vel);
     }
 
-    private void goToMain(Context ctx, User user){
+    private void goToMain(Context ctx, String user_id){
         Intent intent = new Intent(ctx, MainActivity.class);
-        intent.putExtra(getResources().getString(R.string.connected_user), user);
+        intent.putExtra(getResources().getString(R.string.connected_user_id), user_id);
         startActivity(intent);
     }
 }

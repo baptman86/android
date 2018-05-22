@@ -14,10 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.baptiste.smartcity.R;
+import com.example.baptiste.smartcity.fragments.MapFragment;
 import com.example.baptiste.smartcity.fragments.NewsFragment;
 import com.example.baptiste.smartcity.fragments.ProfilFragment;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------
 
     private void showMapFragment(){
-        if (this.FragmentMap == null) this.FragmentMap = SupportMapFragment.newInstance();
+        if (this.FragmentMap == null) this.FragmentMap = new MapFragment();
         this.startTransactionFragment(this.FragmentMap);
     }
 

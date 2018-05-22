@@ -5,5 +5,5 @@
     <string name="storedLogin">user_login</string>
     <string name="storedPassword">user_password</string>
 
-    <string name="connected_user">user_info</string>
+    <string name="connected_user_id">user_id</string>
 </resources>
