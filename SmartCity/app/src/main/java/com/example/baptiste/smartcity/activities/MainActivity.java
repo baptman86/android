@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.baptiste.smartcity.R;
+import com.example.baptiste.smartcity.fragments.NewsFragment;
+import com.example.baptiste.smartcity.fragments.ProfilFragment;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 
@@ -21,7 +23,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private Fragment FragmentMap;
-
+    private Fragment FragmentNews;
+    private Fragment FragmentProfil;
 
     //FOR DESIGN
     private Toolbar toolbar;
@@ -32,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
-
-        // 6 - Configure all views
 
         this.configureToolBar();
 
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        // 5 - Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -64,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_map :
                 this.showMapFragment();
                 break;
+            case R.id.activity_main_drawer_news :
+                this.showNewsFragment();
+                break;
+            case R.id.activity_main_drawer_profil :
+                this.showProfilFragment();
+                break;
             case R.id.activity_main_drawer_disconnect :
                 this.disconnect();
                 break;
@@ -76,9 +82,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    // ---------------------
+    // FUNCTION USE ON CLICK
+    // ---------------------
+
     private void showMapFragment(){
         if (this.FragmentMap == null) this.FragmentMap = SupportMapFragment.newInstance();
         this.startTransactionFragment(this.FragmentMap);
+    }
+
+    private void showProfilFragment(){
+        if (this.FragmentProfil == null) this.FragmentProfil = new ProfilFragment();
+        this.startTransactionFragment(this.FragmentProfil);
+    }
+
+    private void showNewsFragment(){
+        if (this.FragmentNews == null) this.FragmentNews = new NewsFragment();
+        this.startTransactionFragment(this.FragmentNews);
     }
 
     private void disconnect(){
@@ -99,20 +120,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    // ---
 
 
     // ---------------------
     // CONFIGURATION
     // ---------------------
 
-    // 1 - Configure Toolbar
     private void configureToolBar(){
         this.toolbar = (Toolbar) findViewById(R.id.navigation_drawer_toolbar);
         setSupportActionBar(toolbar);
     }
 
-    // 2 - Configure Drawer Layout
     private void configureDrawerLayout(){
         this.drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_main_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -120,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    // 3 - Configure NavigationView
     private void configureNavigationView(){
         this.navigationView = (NavigationView) findViewById(R.id.navigation_drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);

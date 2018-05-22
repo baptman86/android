@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="confirm">Valider</string>
+
     <string name="login">identifiant</string>
     <string name="password">mot de passe</string>
-    <string name="conf_password">confirmez le mot de passe</string>
-    <string name="name">Nom</string>
-    <string name="surname">Prénom</string>
-    <string name="old">Age</string>
-    <string name="email">mail</string>
-    <string name="domaine">Domaine de compétence</string>
-    <string name="confirm">Valider</string>
-    <string name="delete">supprimer un utilisateur (temporaire)</string>
-    <string name="confirm_delete">confirmer la suppression</string>
-    <string name="error_user_already_exist">Cet identifiant est déjà pris</string>
-    <string name="error_conf_password">le deuxieme mot de passe doit être identique</string>
-    <string name="log_in">Connexion</string>
-    <string name="sign_in">Inscription</string>
-    <string name="error_wrong_credentials">identifiant ou mot de passe incorrect</string>
-    <string name="welcome">bienvenue</string>
-    <string name="store_password">mémoriser le mot de passe ?</string>
 
     <!-- connection -->
+    <string name="welcome">bienvenue</string>
+    <string name="store_password">mémoriser le mot de passe ?</string>
+    <string name="error_wrong_credentials">identifiant ou mot de passe incorrect</string>
     <string name="account_created">compte créé avec succés</string>
+    <string name="log_in">Connexion</string>
+        <!-- user fields -->
+        <string name="conf_password">confirmez le mot de passe</string>
+        <string name="name">Nom</string>
+        <string name="surname">Prénom</string>
+        <string name="old">Age</string>
+        <string name="email">mail</string>
+        <string name="domaine">Domaine de compétence</string>
 
 
     <!-- inscription -->
     <string name="invalid_login">identifiant invalide</string>
     <string name="invalid_password">mot de passe invalide</string>
+    <string name="error_user_already_exist">Cet identifiant est déjà pris</string>
+    <string name="error_conf_password">le deuxieme mot de passe doit être identique</string>
+    <string name="sign_in">Inscription</string>
+
+
+    <!-- profil -->
+    <string name="modify_user">confirmer la modification</string>
+    <string name="delete_user">se desinscrire</string>
+    <string name="error_delete_user">erreur lors de la suppression de l\'utilisateur</string>
+    <string name="confirm_delete_user">confirmer la suppression</string>
 
     <!-- geolocalisation -->
     <string name="error_location_permission">veuillez autoriser l\'application à accéder à votre localisation</string>
@@ -37,6 +45,11 @@
         <!-- menu -->
         <string name="disconnect">déconnexion</string>
         <string name="map">carte</string>
+        <string name="profil">profil</string>
         <string name="professional">annnonce</string>
+
+    <!-- news -->
+    <string name="no_news">aucune news trouvé</string>
+    <string name="error_news">erreur lors de la recherche de news</string>
 
 </resources>

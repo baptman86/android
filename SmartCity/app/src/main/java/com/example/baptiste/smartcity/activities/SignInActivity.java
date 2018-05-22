@@ -11,8 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.example.baptiste.smartcity.Function;
 import com.example.baptiste.smartcity.R;
-import com.example.baptiste.smartcity.object.User;
+import com.example.baptiste.smartcity.objects.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,7 +69,6 @@ public class SignInActivity extends AppCompatActivity {
                     User user_found = snapshot.getValue(User.class);
                     if(user_found != null && user_found.getIdentifiant().equals(user_login)){
                         user = user_found;
-                        Log.d("test",user_found.getIdentifiant());
                     }
                 }
                 mDataBase.child("users").removeEventListener(this);
@@ -77,8 +77,8 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(ctx,R.string.error_user_already_exist,Toast.LENGTH_LONG).show();
                 }
                 else {
-                    if(isValidLogin(user_login)) {
-                        if(isValidPassword(user_conf_password)) {
+                    if(Function.isValidLogin(ctx,user_login)) {
+                        if(Function.isValidPassword(ctx,user_password)) {
                             if (user_password.equals(user_conf_password)) {
                                 String salt = User.generateSalt();
                                 mDataBase.child("users").push().setValue(new User(user_login, User.encrypt(user_password, salt), salt, user_name, user_surname, user_email));
@@ -89,11 +89,11 @@ public class SignInActivity extends AppCompatActivity {
                             goToMain(ctx, user);
                         }
                         else{
-                            Toast.makeText(ctx, R.string.invalid_password+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+LOGIN_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ctx, ctx.getResources().getString(R.string.invalid_password)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+LOGIN_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
                         }
                     }
                     else{
-                        Toast.makeText(ctx, R.string.invalid_login+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+PASSWORD_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, ctx.getResources().getString(R.string.invalid_login)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+PASSWORD_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -102,28 +102,10 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.d("test", "error");
+                mDataBase.child("users").removeEventListener(this);
             }
         };
         mDataBase.child("users").addValueEventListener(vel);
-    }
-
-    private Boolean isValidLogin(String user_login){
-        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
-        boolean hasSpecialChar = p.matcher(user_login).find();
-
-        boolean isTooShort = user_login.length() < LOGIN_MINIMUM_LENGTH;
-
-        return !hasSpecialChar && !isTooShort;
-    }
-
-    private Boolean isValidPassword(String user_password){
-        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
-        boolean hasSpecialChar = p.matcher(user_password).find();
-
-        boolean isTooShort = user_password.length() < PASSWORD_MINIMUM_LENGTH;
-
-        return !hasSpecialChar && !isTooShort;
     }
 
     private void goToMain(Context ctx, User user) {

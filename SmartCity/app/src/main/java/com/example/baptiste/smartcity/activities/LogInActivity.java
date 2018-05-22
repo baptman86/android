@@ -6,14 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.baptiste.smartcity.R;
-import com.example.baptiste.smartcity.object.User;
+import com.example.baptiste.smartcity.objects.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,12 +58,6 @@ public class LogInActivity extends AppCompatActivity {
         });
     }
 
-    private void goToMain(Context ctx, User user){
-        Intent intent = new Intent(ctx, MainActivity.class);
-        intent.putExtra(getResources().getString(R.string.connected_user), user);
-        startActivity(intent);
-    }
-
     private void directLogIn(final Context ctx_param,final String user_login_param,final String user_password_param){
         ValueEventListener vel = new ValueEventListener() {
 
@@ -96,7 +89,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.d("test", "error");
+                mDataBase.child("users").removeEventListener(this);
             }
         };
         mDataBase.child("users").addValueEventListener(vel);
@@ -141,9 +134,16 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.d("test", "error");
+                Toast.makeText(ctx,getResources().getString(R.string.error_wrong_credentials),Toast.LENGTH_LONG).show();
+                mDataBase.child("users").removeEventListener(this);
             }
         };
         mDataBase.child("users").addValueEventListener(vel);
+    }
+
+    private void goToMain(Context ctx, User user){
+        Intent intent = new Intent(ctx, MainActivity.class);
+        intent.putExtra(getResources().getString(R.string.connected_user), user);
+        startActivity(intent);
     }
 }

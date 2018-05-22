@@ -1,4 +1,4 @@
-package com.example.baptiste.smartcity.object;
+package com.example.baptiste.smartcity.objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
