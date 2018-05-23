@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,7 +115,7 @@ public class ProfilFragment extends Fragment {
                         actual_user = user_found;
                     }
                 }
-                ((EditText) profil_view.findViewById(R.id.user_login_profil)).setText(actual_user.getIdentifiant());
+                ((EditText) profil_view.findViewById(R.id.user_login_profil)).setText(actual_user.getLogin());
                 ((EditText) profil_view.findViewById(R.id.user_name)).setText(actual_user.getName());
                 ((EditText) profil_view.findViewById(R.id.user_surname)).setText(actual_user.getSurname());
                 ((EditText) profil_view.findViewById(R.id.user_email)).setText(actual_user.getEmail());
@@ -145,7 +144,7 @@ public class ProfilFragment extends Fragment {
                 user_ref = null;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user_found = snapshot.getValue(User.class);
-                    if(user_found != null && user_found.getIdentifiant().equals(user_login)){
+                    if(user_found != null && user_found.getLogin().equals(user_login)){
                         user_ref = snapshot.getRef();
                     }
                 }

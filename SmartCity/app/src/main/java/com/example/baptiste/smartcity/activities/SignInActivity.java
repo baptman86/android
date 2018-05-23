@@ -62,7 +62,7 @@ public class SignInActivity extends AppCompatActivity {
                 user = null;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user_found = snapshot.getValue(User.class);
-                    if(user_found != null && user_found.getIdentifiant().equals(user_login)){
+                    if(user_found != null && user_found.getLogin().equals(user_login)){
                         user = user_found;
                         key = snapshot.getKey();
                     }

@@ -1,15 +1,11 @@
 package com.example.baptiste.smartcity.objects;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class User {
-    private String identifiant;
-    private String mot_de_passe;
+    private String login;
+    private String password;
     private String salt;
     private String name;
     private String surname;
@@ -20,9 +16,9 @@ public class User {
 
     public User(){};
 
-    public User(String identifiant, String mot_de_passe,String salt, String name, String surname, String email) {
-        this.identifiant = identifiant;
-        this.mot_de_passe = mot_de_passe;
+    public User(String login, String password, String salt, String name, String surname, String email) {
+        this.login = login;
+        this.password = password;
         this.salt = salt;
         this.name = name;
         this.surname = surname;
@@ -54,20 +50,20 @@ public class User {
         this.surname = surname;
     }
 
-    public String getIdentifiant() {
-        return identifiant;
+    public String getLogin() {
+        return login;
     }
 
-    public void setIdentifiant(String identifiant) {
-        this.identifiant = identifiant;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getMot_de_passe() {
-        return mot_de_passe;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMot_de_passe(String mot_de_passe) {
-        this.mot_de_passe = mot_de_passe;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -87,7 +83,7 @@ public class User {
     }
 
     public static Boolean testPassword(User user,String password){
-        return encrypt(password,user.getSalt()).equals(user.getMot_de_passe());
+        return encrypt(password,user.getSalt()).equals(user.getPassword());
     }
 
     //encrypt EXTREMEMENT naif

@@ -3,7 +3,7 @@
 
     <string name="confirm">Valider</string>
 
-    <string name="login">identifiant</string>
+    <string name="login">login</string>
     <string name="password">mot de passe</string>
 
     <string name="error_reading_database">erreur lors de la lecture de la base de données</string>
@@ -11,7 +11,7 @@
     <!-- connection -->
     <string name="welcome">bienvenue</string>
     <string name="store_password">mémoriser le mot de passe ?</string>
-    <string name="error_wrong_credentials">identifiant ou mot de passe incorrect</string>
+    <string name="error_wrong_credentials">login ou mot de passe incorrect</string>
     <string name="account_created">compte créé avec succés</string>
     <string name="account_modified">compte modifié avec succés</string>
     <string name="log_in">Connexion</string>
@@ -25,9 +25,9 @@
 
 
     <!-- inscription -->
-    <string name="invalid_login">identifiant invalide</string>
+    <string name="invalid_login">login invalide</string>
     <string name="invalid_password">mot de passe invalide</string>
-    <string name="error_user_already_exist">Cet identifiant est déjà pris</string>
+    <string name="error_user_already_exist">Cet login est déjà pris</string>
     <string name="error_conf_password">la confirmation du mot de passe doit être identique au mot de passe</string>
     <string name="sign_in">Inscription</string>
 

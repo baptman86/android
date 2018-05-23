@@ -1,12 +1,8 @@
 package com.example.baptiste.smartcity.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.baptiste.smartcity.R;
-import com.example.baptiste.smartcity.activities.LogInActivity;
 import com.example.baptiste.smartcity.objects.Conversation;
 import com.example.baptiste.smartcity.objects.Invitation;
 import com.example.baptiste.smartcity.objects.User;
@@ -61,7 +56,7 @@ public class InvitationFragment extends Fragment {
                 user = null;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user_found = snapshot.getValue(User.class);
-                    if(user_found != null && user_found.getIdentifiant().equals(user_login_param)){
+                    if(user_found != null && user_found.getLogin().equals(user_login_param)){
                         user = user_found;
                         key = snapshot.getKey();
                     }
@@ -80,6 +75,12 @@ public class InvitationFragment extends Fragment {
                             Invitation invitation = dataSnapshot.getValue(Invitation.class);
                             if(invitation.getReponse() != null){
                                 dataSnapshot.getRef().removeValue();
+                                if(invitation.getReponse()) {
+                                    Toast.makeText(ctx_param, user_login_param+" a accepté votre invitation à la discussion sur "+topic_param,Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Toast.makeText(ctx_param, user_login_param+" a refusé votre invitation à la discussion sur "+topic_param,Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
 

@@ -3,24 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/activity_main_drawer_news"
-            android:icon="@drawable/common_google_signin_btn_icon_dark_normal"
-            android:title="Fil d'actualité" />
+            android:id="@+id/activity_main_drawer_map"
+            android:icon="@drawable/googleg_standard_color_18"
+            android:title="Map" />
     </group>
 
-    <item android:title="Configuration">
+    <item android:title="Information">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/activity_main_drawer_map"
-                    android:icon="@drawable/googleg_standard_color_18"
-                    android:title="Map" />
+                    android:id="@+id/activity_main_drawer_news"
+                    android:icon="@drawable/common_google_signin_btn_icon_dark_normal"
+                    android:title="Fil d'actualité" />
                 <item
-                    android:id="@+id/activity_main_drawer_profil"
+                    android:id="@+id/activity_main_drawer_annonces"
                     android:icon="@drawable/googleg_standard_color_18"
-                    android:title="@string/profil" />
+                    android:title="@string/annonces" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Communication">
+        <menu>
+            <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/activity_main_drawer_conversation"
                     android:icon="@drawable/googleg_standard_color_18"
@@ -29,10 +37,17 @@
                     android:id="@+id/activity_main_drawer_invitation"
                     android:icon="@drawable/googleg_standard_color_18"
                     android:title="@string/invitation" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Gestion de compte">
+        <menu>
+            <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/activity_main_drawer_annonces"
+                    android:id="@+id/activity_main_drawer_profil"
                     android:icon="@drawable/googleg_standard_color_18"
-                    android:title="@string/annonces" />
+                    android:title="@string/profil" />
                 <item
                     android:id="@+id/activity_main_drawer_disconnect"
                     android:icon="@drawable/googleg_standard_color_18"
