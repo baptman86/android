@@ -16,7 +16,7 @@ android:orientation="vertical">
             android:ems="10"
             android:layout_weight="1"
             android:singleLine="true"
-            android:text="Search" />
+            android:hint="Search" />
 
         <Button
             android:id="@+id/searchButtonNews"

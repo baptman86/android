@@ -3,16 +3,18 @@ package com.example.baptiste.smartcity.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
-public class User implements Parcelable {
+public class User {
     private String identifiant;
     private String mot_de_passe;
     private String salt;
     private String name;
     private String surname;
     private String email;
-    //private String domaines; //String[] split by ";"
+    private ArrayList<String> conversations_id;
 
     private static final int SALT_LENGHT = 12;
 
@@ -27,44 +29,6 @@ public class User implements Parcelable {
         this.email = email;
     }
 
-    //parcel part
-    public User(Parcel in){
-        this.identifiant= in.readString();
-        this.mot_de_passe= in.readString();
-        this.salt= in.readString();
-        this.name= in.readString();
-        this.surname= in.readString();
-        this.email= in.readString();
-        //this.domaines = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(this.identifiant);
-        parcel.writeString(this.mot_de_passe);
-        parcel.writeString(this.salt);
-        parcel.writeString(this.name);
-        parcel.writeString(this.surname);
-        parcel.writeString(this.email);
-        //parcel.writeString(this.domaines);
-    }
-
-    public static final Creator<User> CREATOR= new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {
-            return new User(source);  //using parcelable constructor
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     public String getSalt() {
         return salt;
@@ -113,6 +77,14 @@ public class User implements Parcelable {
     public void setEmail(String email) {
             this.email = email;
         }
+
+    public void addConversation(String conv_id){
+        this.conversations_id.add(conv_id);
+    }
+
+    public void removeConversation(Conversation conv){
+        this.conversations_id.remove(conv);
+    }
 
     public static Boolean testPassword(User user,String password){
         return encrypt(password,user.getSalt()).equals(user.getMot_de_passe());

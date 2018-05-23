@@ -22,9 +22,17 @@
                     android:icon="@drawable/googleg_standard_color_18"
                     android:title="@string/profil" />
                 <item
-                    android:id="@+id/activity_main_drawer_email"
+                    android:id="@+id/activity_main_drawer_conversation"
                     android:icon="@drawable/googleg_standard_color_18"
                     android:title="@string/messagerie" />
+                <item
+                    android:id="@+id/activity_main_drawer_invitation"
+                    android:icon="@drawable/googleg_standard_color_18"
+                    android:title="@string/invitation" />
+                <item
+                    android:id="@+id/activity_main_drawer_annonces"
+                    android:icon="@drawable/googleg_standard_color_18"
+                    android:title="@string/annonces" />
                 <item
                     android:id="@+id/activity_main_drawer_disconnect"
                     android:icon="@drawable/googleg_standard_color_18"

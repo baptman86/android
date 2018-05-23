@@ -8,18 +8,23 @@ import java.util.Date;
  */
 
 public class Conversation {
-    private String user_id1;
-    private String user_id2;
     private String topic;
+    private String description;
     private ArrayList<Message> messages = new ArrayList<>();
 
     public Conversation() {}
 
-    public Conversation(String user_id1, String user_id2, String topic, ArrayList<Message> messages) {
-        this.user_id1 = user_id1;
-        this.user_id2 = user_id2;
+    public Conversation(String topic, String description) {
         this.topic = topic;
-        this.messages = messages;
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTopic() {
@@ -28,22 +33,6 @@ public class Conversation {
 
     public void setTopic(String topic) {
         this.topic = topic;
-    }
-
-    public String getUser_id1() {
-        return user_id1;
-    }
-
-    public void setUser_id1(String user_id1) {
-        this.user_id1 = user_id1;
-    }
-
-    public String getUser_id2() {
-        return user_id2;
-    }
-
-    public void setUser_id2(String user_id2) {
-        this.user_id2 = user_id2;
     }
 
     public ArrayList<Message> getMessages() {

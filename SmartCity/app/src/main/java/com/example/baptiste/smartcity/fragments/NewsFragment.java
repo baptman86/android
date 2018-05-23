@@ -128,19 +128,24 @@ public class NewsFragment extends Fragment {
 
     }
 
-    public String generateTargetUrl(String search, int x) {
+    public String generateTargetUrl(String search, int numPage) {
         String url;
         Calendar today = Calendar.getInstance();
         int year = today.get(Calendar.YEAR);
         int month = today.get(Calendar.MONTH) + 1;
         int day = today.get(Calendar.DAY_OF_MONTH);
-        String date;
-        if (month > 9)
-            date = year + "-" + month + "-" + day;
-        else
-            date = year + "-0" + month + "-" + day;
+        String date_from;
+        String date_to;
+        if (month > 9) {
+            date_to = year + "-" + month + "-" + day;
+            date_from = year + "-" + month + "-" + (day-7);
+        }
+        else {
+            date_to = year + "-0" + month + "-" + day;
+            date_from = year + "-0" + month + "-" + (day-7);
+        }
         url = "https://newsapi.org/v2/everything?q=" + search +
-                "&from=" + date + "&to=" + "2018-05-22" + "&language=fr&sortBy=popularity&pageSize=10&page=" + x + "&apiKey=" + API_KEY;
+                "&from=" + date_from + "&to=" + date_to + "&language=fr&sortBy=popularity&pageSize=10&page=" + numPage + "&apiKey=" + API_KEY;
         return url;
     }
 
@@ -154,19 +159,17 @@ public class NewsFragment extends Fragment {
 
         protected String doInBackground(String... args) {
 
-            String urlParameters = "";
-
             if(targetUrl=="")
-                return excuteGet(generateTargetUrl("actualité", page),urlParameters);
+                return executeGet(generateTargetUrl("actualité", page));
             else
-                return excuteGet(targetUrl,urlParameters);
+                return executeGet(targetUrl);
         }
 
         @Override
         protected void onPostExecute(String xml) {
             Log.e("test",xml);
 
-            if(xml.length()>50){ //xml is not empty even if there is no article, 50 is enougth
+            if(xml.length()>50){ //if there is no article the xml return {"status":"ok","totalResults":83,"articles":[]}, length>50 is enougth to ignore it
                 String status = xml.substring(xml.indexOf(":")+1,xml.indexOf(","));
                 if(!status.equals("\"error\"")) {
                     try {
@@ -219,7 +222,7 @@ public class NewsFragment extends Fragment {
         return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;
     }
 
-    public static String excuteGet(String targetURL, String urlParameters)
+    public static String executeGet(String targetURL)
     {
         URL url;
         HttpURLConnection connection = null;

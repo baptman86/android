@@ -14,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.baptiste.smartcity.R;
+import com.example.baptiste.smartcity.fragments.AnnoncesFragment;
+import com.example.baptiste.smartcity.fragments.ConversationsFragment;
+import com.example.baptiste.smartcity.fragments.InvitationFragment;
 import com.example.baptiste.smartcity.fragments.MapFragment;
 import com.example.baptiste.smartcity.fragments.NewsFragment;
 import com.example.baptiste.smartcity.fragments.ProfilFragment;
@@ -25,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment FragmentMap;
     private Fragment FragmentNews;
     private Fragment FragmentProfil;
+    private Fragment FragmentConversation;
+    private Fragment FragmentAnnonces;
+    private Fragment FragmentInvitation;
 
     //FOR DESIGN
     private Toolbar toolbar;
@@ -76,6 +82,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_profil :
                 this.showProfilFragment();
                 break;
+            case R.id.activity_main_drawer_conversation :
+                this.showConversationFragment();
+                break;
+            case R.id.activity_main_drawer_invitation :
+                this.showInvitationFragment();
+                break;
+            case R.id.activity_main_drawer_annonces :
+                this.showAnnoncesFragment();
+                break;
             case R.id.activity_main_drawer_disconnect :
                 this.disconnect();
                 break;
@@ -86,6 +101,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+
+
+
+
+
+
+    private void showAnnoncesFragment(){
+        if (this.FragmentAnnonces == null) this.FragmentAnnonces = new AnnoncesFragment();
+        this.startTransactionFragment(this.FragmentAnnonces);
     }
 
 
@@ -106,6 +132,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showNewsFragment(){
         if (this.FragmentNews == null) this.FragmentNews = new NewsFragment();
         this.startTransactionFragment(this.FragmentNews);
+    }
+
+    private void showConversationFragment(){
+        if (this.FragmentConversation == null) this.FragmentConversation = new ConversationsFragment();
+        this.startTransactionFragment(this.FragmentConversation);
+    }
+
+    private void showInvitationFragment(){
+        if (this.FragmentInvitation == null) this.FragmentInvitation = new InvitationFragment();
+        this.startTransactionFragment(this.FragmentInvitation);
     }
 
     private void disconnect(){

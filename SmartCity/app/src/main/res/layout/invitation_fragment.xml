@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/invitationTopic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="topic"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/invitationIdentifiant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="identifiant"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/invitationDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="description"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/invitiationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="inviter" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

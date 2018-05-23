@@ -6,6 +6,8 @@
     <string name="login">identifiant</string>
     <string name="password">mot de passe</string>
 
+    <string name="error_reading_database">erreur lors de la lecture de la base de données</string>
+
     <!-- connection -->
     <string name="welcome">bienvenue</string>
     <string name="store_password">mémoriser le mot de passe ?</string>
@@ -37,8 +39,9 @@
     <string name="confirm_delete_user">confirmer la suppression</string>
     <string name="error_get_user">erreur lors de la récupération de l\'utilisateur</string>
 
-    <!-- geolocalisation -->
-    <string name="error_location_permission">veuillez autoriser l\'application à accéder à votre localisation</string>
+    <!-- conversation -->
+    <string name="research_attribut_1">topic</string>
+    <string name="research">go</string>
 
     <!-- navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -49,11 +52,18 @@
         <string name="map">carte</string>
         <string name="profil">profil</string>
         <string name="messagerie">messagerie</string>
-        <string name="professional">annnonce</string>
+        <string name="annonces">annonces</string>
+        <string name="invitation">invitation</string>
 
     <!-- news -->
     <string name="no_news">aucune news trouvé</string>
     <string name="error_news">erreur lors de la recherche de news</string>
+
+    <!-- annonce -->
+    <string name="add_annonce_success">ajout de l\'annonce effectuée avec succés</string>
+
+    <!-- invitation -->
+    <string name="user_not_found">L\'utilisateur n\'a pas été trouvé</string>
 
     <!--    Permissions    -->
     <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>

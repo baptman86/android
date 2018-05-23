@@ -32,14 +32,14 @@ public class SignInActivity extends AppCompatActivity {
         findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user_login = ((EditText) findViewById(R.id.User_login)).getText().toString();
-                String user_password = ((EditText) findViewById(R.id.User_password)).getText().toString();
-                String user_conf_password = ((EditText) findViewById(R.id.User_conf_password)).getText().toString();
-                String user_name = ((EditText) findViewById(R.id.User_name)).getText().toString();
-                String user_surname = ((EditText) findViewById(R.id.User_surname)).getText().toString();
-                String user_email = ((EditText) findViewById(R.id.User_email)).getText().toString();
+            String user_login = ((EditText) findViewById(R.id.User_login)).getText().toString();
+            String user_password = ((EditText) findViewById(R.id.User_password)).getText().toString();
+            String user_conf_password = ((EditText) findViewById(R.id.User_conf_password)).getText().toString();
+            String user_name = ((EditText) findViewById(R.id.User_name)).getText().toString();
+            String user_surname = ((EditText) findViewById(R.id.User_surname)).getText().toString();
+            String user_email = ((EditText) findViewById(R.id.User_email)).getText().toString();
 
-                signInUser(view.getContext(),user_login,user_password,user_conf_password,user_name,user_surname,user_email);
+            signInUser(view.getContext(),user_login,user_password,user_conf_password,user_name,user_surname,user_email);
             }
         });
     }
