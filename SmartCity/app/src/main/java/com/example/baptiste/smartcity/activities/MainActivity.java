@@ -21,6 +21,7 @@ import com.example.baptiste.smartcity.fragments.ProfilFragment;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
+
     private Fragment FragmentMap;
     private Fragment FragmentNews;
     private Fragment FragmentProfil;
@@ -30,9 +31,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.navigation_drawer);
 
         this.configureToolBar();
@@ -43,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.showMapFragment();
     }
+
+
 
     @Override
     public void onBackPressed() {

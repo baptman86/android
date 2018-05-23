@@ -1,16 +1,25 @@
 package com.example.baptiste.smartcity.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.gesture.Gesture;
+import android.gesture.GestureOverlayView;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -28,7 +37,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 
@@ -38,7 +49,14 @@ public class NewsFragment extends Fragment {
     String API_KEY;
     ListView listNews;
     ProgressBar loader;
+    EditText searchBar;
+    Button searchButton;
+    Button precButton;
+    Button nextButton;
     View v;
+    int page = 1;
+    boolean incPage = false;
+    String targetUrl = "";
 
     ArrayList<HashMap<String, String>> dataList = new ArrayList<>();
 
@@ -54,10 +72,49 @@ public class NewsFragment extends Fragment {
         v = inflater.inflate(R.layout.news_fragment_main, container, false);
         API_KEY = v.getContext().getResources().getString(R.string.news_key);
 
+        searchBar = v.findViewById(R.id.searchBarNews);
+        searchButton = v.findViewById(R.id.searchButtonNews);
+        precButton = v.findViewById(R.id.precNews);
+        nextButton = v.findViewById(R.id.nextNews);
         listNews = (ListView) v.findViewById(R.id.listNews);
         loader = (ProgressBar) v.findViewById(R.id.loader);
         listNews.setEmptyView(loader);
 
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                targetUrl = generateTargetUrl(searchBar.getText().toString(),1);
+                page = 1;
+                DownloadNews newsTask = new DownloadNews();
+                newsTask.execute();
+            }
+        });
+
+        precButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(page>1) {
+                    page--;
+                    if(targetUrl!="")
+                        targetUrl = generateTargetUrl(searchBar.getText().toString(), page);
+                    DownloadNews newsTask = new DownloadNews();
+                    newsTask.execute();
+                }
+            }
+        });
+
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page++;
+                incPage = true;
+                if(targetUrl!="")
+                    targetUrl = generateTargetUrl(searchBar.getText().toString(), page);
+                DownloadNews newsTask = new DownloadNews();
+                newsTask.execute();
+            }
+        });
 
 
         if(isNetworkAvailable(v.getContext())){
@@ -71,28 +128,51 @@ public class NewsFragment extends Fragment {
 
     }
 
+    public String generateTargetUrl(String search, int x) {
+        String url;
+        Calendar today = Calendar.getInstance();
+        int year = today.get(Calendar.YEAR);
+        int month = today.get(Calendar.MONTH) + 1;
+        int day = today.get(Calendar.DAY_OF_MONTH);
+        String date;
+        if (month > 9)
+            date = year + "-" + month + "-" + day;
+        else
+            date = year + "-0" + month + "-" + day;
+        url = "https://newsapi.org/v2/everything?q=" + search +
+                "&from=" + date + "&to=" + "2018-05-22" + "&language=fr&sortBy=popularity&pageSize=10&page=" + x + "&apiKey=" + API_KEY;
+        return url;
+    }
 
     class DownloadNews extends AsyncTask<String, Void, String> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
+
         protected String doInBackground(String... args) {
+
             String urlParameters = "";
-            return excuteGet("https://newsapi.org/v2/everything?q=bitcoin&pageSize=10&apiKey="+API_KEY,urlParameters);
-            //return excuteGet("https://newsapi.org/v2/top-headlines?category=general&country=fr&page=1&pageSize=99&apiKey="+API_KEY, urlParameters);
+
+            if(targetUrl=="")
+                return excuteGet(generateTargetUrl("actualité", page),urlParameters);
+            else
+                return excuteGet(targetUrl,urlParameters);
         }
+
         @Override
         protected void onPostExecute(String xml) {
             Log.e("test",xml);
 
-            if(xml.length()>10){ //xml is not empty even if there is no article, 10 is enougth
+            if(xml.length()>50){ //xml is not empty even if there is no article, 50 is enougth
                 String status = xml.substring(xml.indexOf(":")+1,xml.indexOf(","));
                 if(!status.equals("\"error\"")) {
                     try {
                         JSONObject jsonResponse = new JSONObject(xml);
                         JSONArray jsonArray = jsonResponse.optJSONArray("articles");
+                        dataList = new ArrayList<>();
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -125,8 +205,12 @@ public class NewsFragment extends Fragment {
                     Toast.makeText(getView().getContext(), v.getContext().getResources().getString(R.string.error_news), Toast.LENGTH_SHORT).show();
                 }
             }else{
+                if(incPage)
+                    page--;
+                else
                 Toast.makeText(getView().getContext(), v.getContext().getResources().getString(R.string.no_news), Toast.LENGTH_SHORT).show();
             }
+            incPage = false;
         }
     }
 
@@ -134,8 +218,6 @@ public class NewsFragment extends Fragment {
     {
         return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;
     }
-
-
 
     public static String excuteGet(String targetURL, String urlParameters)
     {

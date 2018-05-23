@@ -52,26 +52,7 @@ public class ProfilFragment extends Fragment {
             String user_surname = ((EditText) profil_view.findViewById(R.id.user_surname)).getText().toString();
             String user_email = ((EditText) profil_view.findViewById(R.id.user_email)).getText().toString();
 
-            if(Function.isValidLogin(getContext(),user_login)) {
-                if(Function.isValidPassword(getContext(),user_password)) {
-                    if (user_password.equals(user_conf_password)) {
-                        String salt = User.generateSalt();
-                        User newUser = new User(user_login, User.encrypt(user_password, salt), salt, user_name, user_surname, user_email);
-                        mDataBase.child("users").child(actual_user_id).setValue(newUser);
-                        actual_user = newUser;
-                        Toast.makeText(getContext(), R.string.account_modified, Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(getContext(), R.string.error_conf_password, Toast.LENGTH_LONG).show();
-                    }
-                }
-                else{
-                    Toast.makeText(getContext(), getResources().getString(R.string.invalid_password)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+Function.LOGIN_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
-                }
-            }
-            else{
-                Toast.makeText(getContext(), getResources().getString(R.string.invalid_login)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+Function.PASSWORD_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
-            }
+            modifyUser(getContext(),user_login,user_password,user_conf_password,user_name,user_surname,user_email);
             }
         });
 
@@ -96,65 +77,27 @@ public class ProfilFragment extends Fragment {
         super.onAttach(context);
     }
 
-    private void modifyUser(final Context ctx_param, final String user_login_param, final String user_password_param, final String user_conf_password_param, final String user_name_param, final String user_surname_param, final String user_email_param){
-        ValueEventListener vel = new ValueEventListener() {
-
-            private Context ctx = ctx_param;
-            private String user_login= user_login_param;
-            private String user_password = user_password_param;
-            private String user_conf_password = user_conf_password_param;
-            private String user_name = user_name_param;
-            private String user_surname = user_surname_param;
-            private String user_email = user_email_param;
-
-            private User user;
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                user = null;
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user_found = snapshot.getValue(User.class);
-                    if(user_found != null && snapshot.getKey().equals(actual_user_id)){
-                        user = user_found;
-                    }
-                }
-                /*mDataBase.child("users").removeEventListener(this);
-
-                if(user != null){
-                    Toast.makeText(ctx,R.string.error_user_already_exist,Toast.LENGTH_LONG).show();
+    private void modifyUser( Context ctx_param, final String user_login_param, final String user_password_param, final String user_conf_password_param, final String user_name_param, final String user_surname_param, final String user_email_param){
+        if(Function.isValidLogin(getContext(),user_login_param)) {
+            if(Function.isValidPassword(getContext(),user_password_param)) {
+                if (user_password_param.equals(user_conf_password_param)) {
+                    String salt = User.generateSalt();
+                    User newUser = new User(user_login_param, User.encrypt(user_password_param, salt), salt, user_name_param, user_surname_param, user_email_param);
+                    mDataBase.child("users").child(actual_user_id).setValue(newUser);
+                    actual_user = newUser;
+                    Toast.makeText(getContext(), R.string.account_modified, Toast.LENGTH_LONG).show();
                 }
                 else {
-                    if(Function.isValidLogin(ctx,user_login)) {
-                        if(Function.isValidPassword(ctx,user_conf_password)) {
-                            if (user_password.equals(user_conf_password)) {
-                                String salt = User.generateSalt();
-                                mDataBase.child("users").push().setValue(new User(user_login, User.encrypt(user_password, salt), salt, user_name, user_surname, user_email));
-                                removeUser(ctx,user_login);
-                            } else {
-                                Toast.makeText(ctx, R.string.error_conf_password, Toast.LENGTH_LONG).show();
-                            }
-                            Toast.makeText(ctx, R.string.account_created, Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            Toast.makeText(ctx, R.string.invalid_password+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+ctx.getResources().getInteger(R.integer.LOGIN_MINIMUM_LENGTH)+" caractère(s)", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else{
-                        Toast.makeText(ctx, R.string.invalid_login+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+ctx.getResources().getInteger(R.integer.PASSWORD_MINIMUM_LENGTH)+" caractère(s)", Toast.LENGTH_LONG).show();
-                    }
-
-                }*/
-
+                    Toast.makeText(getContext(), R.string.error_conf_password, Toast.LENGTH_LONG).show();
+                }
             }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.d("test", "error");
+            else{
+                Toast.makeText(getContext(), getResources().getString(R.string.invalid_password)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+Function.LOGIN_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
             }
-        };
-        mDataBase.child("users").addValueEventListener(vel);
+        }
+        else{
+            Toast.makeText(getContext(), getResources().getString(R.string.invalid_login)+" : ne doit contenir que des caractères alphanumerique et posséder plus de "+Function.PASSWORD_MINIMUM_LENGTH+" caractère(s)", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void updateFields(final Context ctx_param, final String user_id_param) {

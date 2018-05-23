@@ -3,10 +3,11 @@
     package="com.example.baptiste.smartcity" >
 
     <!-- map -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="true" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="true" />
 
     <!-- internet -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" android:required="true" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
